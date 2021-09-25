@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useTasks } from "../context/TasksContext";
 import { useRouter } from "next/router";
 const TaskFormPage = () => {
-  const { createTask } = useTasks();
-  const {push} = useRouter();
+  const { createTask, tasks, editTask } = useTasks();
+  const {push, query} = useRouter();
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -28,14 +28,30 @@ const TaskFormPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createTask(task.title, task.description);
+    if(!query.id){
+        createTask(task.title, task.description);
+    }else{
+        editTask(query.id, task)
+    }
     push("/")
   };
+
+  useEffect(()=> {
+    if(query.id){
+        const searchTask = tasks.filter(t => t.id === query.id)
+        console.log(searchTask)
+        let  newContent = {
+            title: searchTask[0].title,
+            description: searchTask[0].description,
+          };
+        setTask(newContent)
+    }
+  }, [])
 
   return (
     <Layout>
       <form onSubmit={handleSubmit}>
-        <h1>Add a Task</h1>
+        <h1>{query.id ? 'Update a Task':'Create a Task'}</h1>
         <input
           type="text"
           name="title"
