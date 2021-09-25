@@ -1,4 +1,4 @@
-import { TaskProvider } from '../context/taskContext'
+import { TaskProvider } from '../context/TasksContext'
 
 import '../styles/globals.css'
 

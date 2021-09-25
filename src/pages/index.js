@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import { useTasks } from "../context/taskContext";
+import { useTasks } from "../context/TasksContext";
 
 const Home = () => {
   
